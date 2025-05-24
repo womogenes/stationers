@@ -4,4 +4,10 @@
 	let { children } = $props();
 </script>
 
-{@render children()}
+<svelte:head>
+	<title>Stationers</title>
+</svelte:head>
+
+<div class="h-screen p-4">
+	{@render children()}
+</div>
