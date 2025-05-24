@@ -1,38 +1,7 @@
-# sv
+# Stationers
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Web implementation of the board game Stationers.
 
-## Creating a project
+## Blurb
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+London, MDCLXIV (1664). A time of new innovation and new ideas! The ink has barely dried on the printing press before it has ushered in a new era of mass communication. At the heart of that communication, in the small churchyard of Paul’s Cross, a war rages - not with swords, but with moveable type. The powerful WORSHIPFUL COMPANY OF STATIONERS has kept a tight grip, but it is ever being eroded by a rising alliance, a COALITION OF INDEPENDENT BOOKSELLERS, working t0 bring power back to the people. Unbeknownst to both parties, a looming PLAGUE, and GREAT FIRE loom, threatening to permanently alter the balance of power in Paul’s Cross Churchyard…
