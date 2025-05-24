@@ -1,13 +1,13 @@
 <script lang="ts">
-	import '../app.css';
+  import '../app.css';
 
-	let { children } = $props();
+  let { children } = $props();
 </script>
 
 <svelte:head>
-	<title>Stationers</title>
+  <title>Stationers</title>
 </svelte:head>
 
 <div class="h-screen p-4">
-	{@render children()}
+  {@render children()}
 </div>
