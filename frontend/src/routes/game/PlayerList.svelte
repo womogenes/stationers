@@ -19,55 +19,62 @@
 
 <p class="mb-2">
   <b>Players</b>
-  ({$game.players.length}{#if $game.players.length >= 6}, full{/if})
+  ({$game.players.length})
 </p>
 
 <!-- Name input (temporary) -->
-<div class="mb-4 flex gap-2">
-  <Input
-    type="text"
-    placeholder="Name"
-    bind:value={newPlayerName}
-    onkeydown={(e) => {
-      if (e.key !== 'Enter') return;
-      try {
-        game.send(['add-player', [newPlayerName]]);
-        newPlayerName = '';
-      } catch {}
-    }}
-    disabled={!canAddPlayer}
-  />
+{#if !$game.gameStarted}
+  <div class="mb-4 flex gap-2">
+    <Input
+      type="text"
+      placeholder="Name"
+      bind:value={newPlayerName}
+      onkeydown={(e) => {
+        if (e.key !== 'Enter') return;
+        try {
+          game.send(['add-player', [newPlayerName]]);
+          newPlayerName = '';
+        } catch {}
+      }}
+      disabled={!canAddPlayer}
+    />
 
-  <Button
-    onclick={() => game.send(['add-player', [newPlayerName]])}
-    disabled={!newPlayerName || !canAddPlayer}
-  >
-    Add
-  </Button>
-</div>
+    <Button
+      onclick={() => game.send(['add-player', [newPlayerName]])}
+      disabled={!newPlayerName || !canAddPlayer}
+    >
+      Add
+    </Button>
+  </div>
+{/if}
 
-<div class="flex flex-col gap-2">
+<div class="flex flex-col divide-y">
   {#each playersByTeam as team, index}
-    <div class="flex items-center gap-2">
-      <div class={cn('size-4 rounded-full', index === 0 ? 'bg-red-700' : 'bg-blue-700')}></div>
-      <p>{longTeamNames[index]} ({team.length})</p>
+    <div class="py-4">
+      <div class="mb-2 flex items-center gap-2">
+        <div class={cn('size-4 rounded-full', index === 0 ? 'bg-red-700' : 'bg-blue-700')}></div>
+        <p>{longTeamNames[index]} ({team.length})</p>
+      </div>
+      <div class="flex flex-col">
+        {#each team as player (player.name)}
+          <PlayerCard {...player} />
+        {/each}
+      </div>
     </div>
-    <div class="mb-2 flex flex-col">
-      {#each team as player (player.name)}
-        <PlayerCard {...player} />
-      {/each}
-    </div>
-    <hr />
   {/each}
 
   <!-- Unassigned players -->
-  <div class="flex items-center gap-2">
-    <div class="size-4 rounded-full bg-gray-400"></div>
-    <p>Unassigned</p>
-  </div>
-  <div class="flex flex-col">
-    {#each $game.players.filter((p: Player) => p.team === -1) as player (player.name)}
-      <PlayerCard {...player} />
-    {/each}
-  </div>
+  {#if !$game.gameStarted}
+    <div class="py-4">
+      <div class="mb-2 flex items-center gap-2">
+        <div class="size-4 rounded-full bg-gray-400"></div>
+        <p>Unassigned</p>
+      </div>
+      <div class="flex flex-col">
+        {#each $game.players.filter((p: Player) => p.team === -1) as player (player.name)}
+          <PlayerCard {...player} />
+        {/each}
+      </div>
+    </div>
+  {/if}
 </div>
