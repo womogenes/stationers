@@ -1,5 +1,5 @@
 export const roundText = [
-  { name: 'Setup', description: 'Waiting for players to join' },
+  { name: 'Setup', description: 'Waiting for players to join...' },
   {
     name: 'Round I: 1664',
     description:

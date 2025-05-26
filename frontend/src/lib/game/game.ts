@@ -80,6 +80,21 @@ export class StationersGame {
   getPlayer(name: string) {
     return this.players.find((p) => p.name === name);
   }
+  getPlayersByTeam() {
+    return [
+      this.players.filter(({ team }) => team === 0),
+      this.players.filter(({ team }) => team === 1),
+    ];
+  }
+  isGameStartReady() {
+    if (![2, 3, 4, 5, 6].includes(this.players.length)) return false;
+    const playersByTeam = this.getPlayersByTeam();
+    const teamASize = playersByTeam[0].length;
+    const teamBSize = playersByTeam[1].length;
+    if (teamASize + teamBSize !== this.players.length) return false;
+    if (Math.abs(teamASize - teamBSize) > 1) return false;
+    return true;
+  }
 
   addPlayer(name: string) {
     // Ensure game has not started
@@ -130,22 +145,10 @@ export class StationersGame {
 
     // Shuffle players for ease of indexing
     shuffleArray(this.players);
-    const playersByTeam = [
-      this.players.filter(({ team }) => team === 0),
-      this.players.filter(({ team }) => team === 1),
-    ];
-
-    if (playersByTeam[0].length + playersByTeam[1].length !== this.players.length) {
-      throw Error(`Each player must be assigned to a team`);
-    }
-    if (Math.abs(playersByTeam[0].length - playersByTeam[1].length) > 1) {
-      throw Error(`Teams must be balanced`);
-    }
+    const playersByTeam = this.getPlayersByTeam();
+    if (!this.isGameStartReady()) throw Error('Game not ready to start');
 
     // Create all pawns
-    if (![2, 3, 4, 5, 6].includes(this.players.length)) {
-      throw Error(`Must have 2-6 players`);
-    }
     const pawnDists = {
       2: [[1], [1]],
       3: [[1, 1], [2]],

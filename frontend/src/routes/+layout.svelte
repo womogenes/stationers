@@ -8,6 +8,6 @@
   <title>Stationers</title>
 </svelte:head>
 
-<div class="h-screen p-4">
+<div class="h-screen">
   {@render children()}
 </div>
