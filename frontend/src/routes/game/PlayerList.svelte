@@ -3,6 +3,8 @@
   import Input from '@/components/ui/input/input.svelte';
   import PlayerCard from './PlayerCard.svelte';
 
+  import { UserIcon } from '@lucide/svelte';
+
   import { onMount } from 'svelte';
   import { cn } from '@/utils';
 
@@ -24,7 +26,7 @@
 
 <!-- Name input (temporary) -->
 {#if !$game.gameStarted}
-  <div class="mb-4 flex gap-2">
+  <div class="flex gap-2">
     <Input
       type="text"
       placeholder="Name"
@@ -51,9 +53,15 @@
 <div class="flex flex-col divide-y">
   {#each playersByTeam as team, index}
     <div class="py-4">
-      <div class="mb-2 flex items-center gap-2">
+      <div class="mb-1 flex items-center gap-2">
         <div class={cn('size-4 rounded-full', index === 0 ? 'bg-red-700' : 'bg-blue-700')}></div>
-        <p>{longTeamNames[index]} ({team.length})</p>
+        <div class="flex w-full justify-between gap-4">
+          <p>{longTeamNames[index]}</p>
+          <div class="text-muted-foreground flex items-center gap-2">
+            {team.length}
+            <UserIcon size={16} />
+          </div>
+        </div>
       </div>
       <div class="flex flex-col">
         {#each team as player (player.name)}
@@ -66,7 +74,7 @@
   <!-- Unassigned players -->
   {#if !$game.gameStarted}
     <div class="py-4">
-      <div class="mb-2 flex items-center gap-2">
+      <div class="mb-1 flex items-center gap-2">
         <div class="size-4 rounded-full bg-gray-400"></div>
         <p>Unassigned</p>
       </div>
