@@ -15,7 +15,7 @@
     {#each $game.players as player}
       <div class="flex items-center rounded-md">
         <!-- Circle with player name -->
-        <div class="flex items-center gap-2 mr-8">
+        <div class="mr-8 flex items-center gap-2">
           <div
             class={cn(
               'size-4 rounded-full transition-colors',

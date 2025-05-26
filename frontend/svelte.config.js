@@ -10,9 +10,7 @@ const config = {
       '@/*': './src/lib',
     },
   },
-  preprocess: [
-    vitePreprocess()
-  ],
+  preprocess: [vitePreprocess()],
   compilerOptions: {
     hmr: true,
   },
