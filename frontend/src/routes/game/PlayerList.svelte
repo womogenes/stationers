@@ -1,18 +1,20 @@
 <script lang="ts">
   import Button from '@/components/ui/button/button.svelte';
   import Input from '@/components/ui/input/input.svelte';
+  import PlayerCard from './PlayerCard.svelte';
 
+  import { onMount } from 'svelte';
   import { cn } from '@/utils';
 
-  import { Trash2Icon } from '@lucide/svelte';
-
-  import { shortTeamNames } from '@/game/game-text';
+  import type { Player } from '@/game/types';
   import { getGameInstance } from '@/game/store';
+  import { longTeamNames } from '@/game/game-text';
 
   const game = getGameInstance();
 
   let newPlayerName = $state('');
   let canAddPlayer = $derived($game.players.length < 6);
+  let playersByTeam = $derived($game ? game.getPlayersByTeam() : []);
 </script>
 
 <p class="mb-2">
@@ -20,7 +22,8 @@
   ({$game.players.length}{#if $game.players.length >= 6}, full{/if})
 </p>
 
-<div class="mb-2 flex gap-2">
+<!-- Name input (temporary) -->
+<div class="mb-4 flex gap-2">
   <Input
     type="text"
     placeholder="Name"
@@ -43,46 +46,28 @@
   </Button>
 </div>
 
-{#if $game.players.length > 0}
-  <div class="flex flex-col gap-2">
-    {#each $game.players as player (player.name)}
-      <div class="flex items-center rounded-md">
-        <!-- Circle with player name -->
-        <div class="mr-auto flex items-center gap-2 overflow-hidden pr-8">
-          <div
-            class={cn(
-              'size-4 shrink-0 rounded-full transition-colors',
-              player.team === -1 ? 'bg-gray-400' : player.team === 0 ? 'bg-red-700' : 'bg-blue-700',
-            )}
-          ></div>
-          <span class="overflow-hidden overflow-ellipsis whitespace-nowrap">{player.name}</span>
-        </div>
+<div class="flex flex-col gap-2">
+  {#each playersByTeam as team, index}
+    <div class="flex items-center gap-2">
+      <div class={cn('size-4 rounded-full', index === 0 ? 'bg-red-700' : 'bg-blue-700')}></div>
+      <p>{longTeamNames[index]} ({team.length})</p>
+    </div>
+    <div class="mb-2 flex flex-col">
+      {#each team as player (player.name)}
+        <PlayerCard {...player} />
+      {/each}
+    </div>
+    <hr />
+  {/each}
 
-        <Button
-          class="mr-2 w-32"
-          variant={player.team !== -1 ? (player.team === 0 ? 'red' : 'blue') : 'outline'}
-          size="sm"
-          onclick={() => game.send(['assign-team', [player.name, 1 - Math.max(player.team, 0)]])}
-        >
-          {#if player.team === -1}
-            Choose Team
-          {:else}
-            {shortTeamNames[player.team]}
-          {/if}
-        </Button>
-
-        {#if !$game.gameStarted}
-          <Button
-            class="size-8"
-            variant="outline"
-            onclick={() => game.send(['remove-player', [player.name]])}
-          >
-            <Trash2Icon />
-          </Button>
-        {/if}
-      </div>
+  <!-- Unassigned players -->
+  <div class="flex items-center gap-2">
+    <div class="size-4 rounded-full bg-gray-400"></div>
+    <p>Unassigned</p>
+  </div>
+  <div class="flex flex-col">
+    {#each $game.players.filter((p: Player) => p.team === -1) as player (player.name)}
+      <PlayerCard {...player} />
     {/each}
   </div>
-{:else}
-  <p class="text-muted-foreground">No players added</p>
-{/if}
+</div>

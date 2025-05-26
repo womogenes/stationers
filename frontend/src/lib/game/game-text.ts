@@ -21,5 +21,5 @@ export const roundText = [
   },
 ];
 
-export const longTeamNames = ['STATIONERS COMPANY', 'COALITION OF INDEPENDENT BOOKSELLERS'];
+export const longTeamNames = ['STATIONERS CO.', 'COALITION OF BOOKSELLERS'];
 export const shortTeamNames = ['STATIONERS', 'COALITION'];
