@@ -1,10 +1,10 @@
 <script lang="ts" module>
-  import { cn, type WithElementRef } from '$lib/utils.js';
+  import { cn, type WithElementRef } from '@/utils.ts';
   import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements';
   import { type VariantProps, tv } from 'tailwind-variants';
 
   export const buttonVariants = tv({
-    base: "hover:cursor-pointer focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium outline-none transition-all focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+    base: "hover:cursor-pointer focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:z-20 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium outline-none transition-colors focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
     variants: {
       variant: {
         default:
@@ -16,6 +16,8 @@
         secondary: 'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
         link: 'text-primary underline-offset-4 hover:underline',
+        red: 'bg-red-700 text-background hover:bg-red-950',
+        blue: 'bg-blue-700 text-background hover:bg-blue-950',
       },
       size: {
         default: 'h-9 px-4 py-2 has-[>svg]:px-3',

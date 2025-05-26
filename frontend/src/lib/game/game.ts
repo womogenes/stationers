@@ -2,11 +2,13 @@
 // Methods for actions, serialization, etc.
 
 import { shuffleArray } from '@/utils';
-import './bookshop';
+
+import type { Player } from './types';
+import { Bookshop } from './bookshop';
 
 export class StationersGame {
   gameStarted: boolean;
-  players: any[];
+  players: Player[];
   pawns: any[];
   round: number;
 
@@ -42,12 +44,12 @@ export class StationersGame {
     this.subscribers.forEach((callback) => callback(this.toJSON()));
   }
 
-  send(msg: string[]) {
+  send(msg: [string, string[]]) {
     // Mutate game state
     const [cmd, args] = msg;
 
     switch (cmd) {
-      case 'new-player':
+      case 'add-player':
         this.addPlayer(args[0]);
         break;
 
@@ -70,7 +72,7 @@ export class StationersGame {
     this.updateSubscribers();
   }
 
-  // Getters
+  // Convenience helper methods
   getPlayer(name: string) {
     return this.players.find((p) => p.name === name);
   }
@@ -80,10 +82,10 @@ export class StationersGame {
     if (this.gameStarted) throw Error('Cannot add players after game start');
 
     // Ensure no one has this name already
-    if (this.getPlayer(name)) throw Error(`Name '${name}$' already in use`);
+    if (this.getPlayer(name)) throw Error(`Name '${name}' already in use`);
     if (['game'].includes(name)) throw Error(`Illegal player name '${name}'`);
 
-    this.players.push({ name, team: -1 });
+    this.players.push({ name, team: -1, favors: 0, insurance: 0 });
 
     return true;
   }
@@ -119,6 +121,13 @@ export class StationersGame {
       this.players.filter(({ team }) => team === 1),
     ];
 
+    if (playersByTeam[0].length + playersByTeam[1].length !== this.players.length) {
+      throw Error(`Each player must be assigned to a team`);
+    }
+    if (Math.abs(playersByTeam[0].length - playersByTeam[1].length) > 1) {
+      throw Error(`Teams must be balanced`);
+    }
+
     // Create all pawns
     if (![2, 3, 4, 5, 6].includes(this.players.length)) {
       throw Error(`Must have 2-6 players`);
@@ -140,7 +149,7 @@ export class StationersGame {
       ],
     };
     // @ts-ignore
-    const pawnDist = pawnDist[this.players.length];
+    const pawnDist = pawnDists[this.players.length];
     this.pawns = [];
     [0, 1].forEach((team) => {
       pawnDist[team].forEach((nPawns: number, playerIdx: number) => {

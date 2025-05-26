@@ -10,6 +10,12 @@ const config = {
       '@/*': './src/lib',
     },
   },
+  preprocess: [
+    vitePreprocess()
+  ],
+  compilerOptions: {
+    hmr: true,
+  },
 };
 
 export default config;

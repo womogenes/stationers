@@ -1,5 +1,5 @@
 // Represents a bookshop tile
 
-class Bookshop {
+export class Bookshop {
   constructor() {}
 }
