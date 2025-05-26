@@ -12,10 +12,10 @@
 
 {#if $game.players.length > 0}
   <div class="flex flex-col gap-2">
-    {#each $game.players as player}
+    {#each $game.players as player (player.name)}
       <div class="flex items-center rounded-md">
         <!-- Circle with player name -->
-        <div class="mr-8 flex items-center gap-2">
+        <div class="mr-auto flex items-center gap-2 pr-8">
           <div
             class={cn(
               'size-4 rounded-full transition-colors',
@@ -26,7 +26,7 @@
         </div>
 
         <Button
-          class="mr-4 w-32"
+          class="mr-2 w-32"
           variant={player.team !== -1 ? (player.team === 0 ? 'red' : 'blue') : 'outline'}
           size="sm"
           onclick={() => game.send(['assign-team', [player.name, 1 - Math.max(player.team, 0)]])}
@@ -40,7 +40,7 @@
 
         <Button
           class="size-8"
-          variant="ghost"
+          variant="outline"
           onclick={() => game.send(['remove-player', [player.name]])}
         >
           <Trash2Icon />

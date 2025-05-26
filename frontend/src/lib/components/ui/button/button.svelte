@@ -1,5 +1,5 @@
 <script lang="ts" module>
-  import { cn, type WithElementRef } from '@/utils.ts';
+  import { cn, type WithElementRef } from '@/utils';
   import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements';
   import { type VariantProps, tv } from 'tailwind-variants';
 
@@ -12,12 +12,12 @@
         destructive:
           'bg-destructive shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 text-white',
         outline:
-          'bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 border',
+          'bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 border active:bg-neutral-200',
         secondary: 'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
         link: 'text-primary underline-offset-4 hover:underline',
-        red: 'bg-red-700 text-background hover:bg-red-950',
-        blue: 'bg-blue-700 text-background hover:bg-blue-950',
+        red: 'bg-red-700 text-background hover:bg-red-800 active:bg-red-900',
+        blue: 'bg-blue-700 text-background hover:bg-blue-800 active:bg-blue-900',
       },
       size: {
         default: 'h-9 px-4 py-2 has-[>svg]:px-3',

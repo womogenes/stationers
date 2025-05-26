@@ -53,6 +53,10 @@ export class StationersGame {
         this.addPlayer(args[0]);
         break;
 
+      case 'remove-player':
+        this.removePlayer(args[0]);
+        break;
+
       case 'assign-team':
         this.assignTeam(args[0], parseInt(args[1]));
         break;
@@ -86,6 +90,16 @@ export class StationersGame {
     if (['game'].includes(name)) throw Error(`Illegal player name '${name}'`);
 
     this.players.push({ name, team: -1, favors: 0, insurance: 0 });
+
+    return true;
+  }
+
+  removePlayer(name: string) {
+    if (this.gameStarted) throw Error('Cannot remove players after game start');
+
+    const player = this.getPlayer(name);
+    if (!player) throw Error(`Player '${name}' not found`);
+    this.players = this.players.filter((p) => p.name !== name);
 
     return true;
   }

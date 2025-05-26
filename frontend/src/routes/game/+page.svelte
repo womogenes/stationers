@@ -10,6 +10,7 @@
   const game = getGameInstance();
 
   let newPlayerName = $state('');
+  let canAddPlayer = $derived($game.players.length < 6);
 </script>
 
 <div class="flex flex-col items-start gap-6">
@@ -22,10 +23,14 @@
     <p>{roundText[$game.round]?.description}</p>
   </div>
 
-  <div>
-    <b class="mb-2 block"
-      >{$game.players.length} {$game.players.length === 1 ? 'player' : 'players'}</b
-    >
+  <div class="w-full max-w-96">
+    <p class="mb-2">
+      <b>
+        {$game.players.length}
+        {$game.players.length === 1 ? 'player' : 'players'}
+      </b>
+      {!canAddPlayer && ' (game full)'}
+    </p>
 
     <div class="mb-2 flex gap-2">
       <Input
@@ -39,8 +44,13 @@
             newPlayerName = '';
           } catch {}
         }}
+        disabled={!canAddPlayer}
       />
-      <Button onclick={() => game.send(['add-player', [newPlayerName]])} disabled={!newPlayerName}>
+
+      <Button
+        onclick={() => game.send(['add-player', [newPlayerName]])}
+        disabled={!newPlayerName || !canAddPlayer}
+      >
         Add
       </Button>
     </div>
