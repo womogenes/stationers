@@ -3,20 +3,25 @@
   import Input from '@/components/ui/input/input.svelte';
   import PlayerCard from './PlayerCard.svelte';
 
-  import { UserIcon } from '@lucide/svelte';
-
-  import { onMount } from 'svelte';
   import { cn } from '@/utils';
 
   import type { Player } from '@/game/types';
   import { getGameInstance } from '@/game/store';
   import { longTeamNames } from '@/game/game-text';
 
+  import { UserIcon } from '@lucide/svelte';
+
   const game = getGameInstance();
 
   let newPlayerName = $state('');
   let canAddPlayer = $derived($game.players.length < 6);
-  let playersByTeam = $derived($game ? game.getPlayersByTeam() : []);
+
+  // Grab players by team (unassigned players are team 2, only shown if game not started)
+  let playersByTeam = $derived(
+    ($game?.gameStarted ? [0, 1] : [0, 1, 2]).map((team) =>
+      $game?.players.filter((p: Player) => p.team === team),
+    ),
+  );
 </script>
 
 <p class="mb-2">
@@ -54,9 +59,14 @@
   {#each playersByTeam as team, index}
     <div class="py-4">
       <div class="mb-1 flex items-center gap-2">
-        <div class={cn('size-4 rounded-full', index === 0 ? 'bg-red-700' : 'bg-blue-700')}></div>
+        <div
+          class={cn(
+            'size-4 rounded-full',
+            index === 2 ? 'bg-gray-400' : index === 0 ? 'bg-red-700' : 'bg-blue-700',
+          )}
+        ></div>
         <div class="flex w-full justify-between gap-4">
-          <p>{longTeamNames[index]}</p>
+          <p>{index < 2 ? longTeamNames[index] : 'Unassigned'}</p>
           <div class="text-muted-foreground flex items-center gap-2">
             {team.length}
             <UserIcon size={16} />
@@ -64,25 +74,10 @@
         </div>
       </div>
       <div class="flex flex-col">
-        {#each team as player (player.name)}
+        {#each team as player}
           <PlayerCard {...player} />
         {/each}
       </div>
     </div>
   {/each}
-
-  <!-- Unassigned players -->
-  {#if !$game.gameStarted}
-    <div class="py-4">
-      <div class="mb-1 flex items-center gap-2">
-        <div class="size-4 rounded-full bg-gray-400"></div>
-        <p>Unassigned</p>
-      </div>
-      <div class="flex flex-col">
-        {#each $game.players.filter((p: Player) => p.team === -1) as player (player.name)}
-          <PlayerCard {...player} />
-        {/each}
-      </div>
-    </div>
-  {/if}
 </div>

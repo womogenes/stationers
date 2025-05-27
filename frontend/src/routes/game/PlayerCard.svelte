@@ -1,6 +1,5 @@
 <script lang="ts">
   import Button from '@/components/ui/button/button.svelte';
-  import { cn } from '@/utils';
 
   import { ArrowUpDownIcon, Trash2Icon } from '@lucide/svelte';
 
@@ -12,7 +11,7 @@
   let player: Player = $props();
 </script>
 
-<div class="flex items-center rounded-md">
+<div class="flex h-8 items-center rounded-md">
   <!-- Circle with player name -->
   <div class="mr-auto flex items-center overflow-hidden pr-8">
     <span class="overflow-hidden overflow-ellipsis whitespace-nowrap">{player.name}</span>
@@ -24,7 +23,7 @@
     <Button
       class="size-8"
       variant="outline"
-      onclick={() => game.send(['assign-team', [player.name, `${1 - Math.max(player.team, 0)}`]])}
+      onclick={() => game.send(['assign-team', [player.name, `${1 - Math.min(player.team, 1)}`]])}
     >
       <ArrowUpDownIcon />
     </Button>

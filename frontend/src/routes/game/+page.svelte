@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Button } from '@/components/ui/button';
   import PlayerList from './PlayerList.svelte';
+  import HackPanel from './HackPanel.svelte';
 
   import { getGameInstance } from '@/game/store';
   import { roundText } from '@/game/game-text';
@@ -28,7 +29,13 @@
   </div>
 
   <!-- Right column -->
-  <div class="w-full max-w-96 border-l p-4">
-    <PlayerList />
+  <div class="flex w-96 shrink-0 flex-col border-l">
+    <div class="mb-auto p-4">
+      <PlayerList />
+    </div>
+
+    <div class="shrink-0 border-t p-4">
+      <HackPanel />
+    </div>
   </div>
 </div>

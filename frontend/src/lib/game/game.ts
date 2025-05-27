@@ -44,6 +44,16 @@ export class StationersGame {
     this.subscribers.forEach((callback) => callback(this.toJSON()));
   }
 
+  // Resetting game state
+  reset() {
+    this.gameStarted = false;
+    this.players = [];
+    this.pawns = [];
+    this.round = 0;
+
+    this.updateSubscribers();
+  }
+
   send(msg: [string, string[]]) {
     // Mutate game state
     const [cmd, args] = msg;
@@ -65,8 +75,8 @@ export class StationersGame {
         this.startGame();
         break;
 
-      case 'increment-round':
-        this.round++;
+      case 'reset':
+        this.reset();
         break;
 
       default:
@@ -104,7 +114,7 @@ export class StationersGame {
     if (this.getPlayer(name)) throw Error(`Name '${name}' already in use`);
     if (['game'].includes(name)) throw Error(`Illegal player name '${name}'`);
 
-    this.players.push({ name, team: -1, favors: 0, insurance: 0 });
+    this.players.push({ name, team: 2, favors: 0, insurance: 0 });
 
     return true;
   }
@@ -177,6 +187,9 @@ export class StationersGame {
         });
       });
     });
+
+    // Start first round
+    this.round = 1;
 
     this.gameStarted = true;
 

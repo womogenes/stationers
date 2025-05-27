@@ -5,3 +5,7 @@ export function getGameInstance() {
   if (!gameInstance) gameInstance = new StationersGame();
   return gameInstance;
 }
+
+export function resetGameInstance() {
+  gameInstance.reset();
+}
