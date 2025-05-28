@@ -25,7 +25,7 @@
 <div class="flex flex-col gap-2">
   <p><b>Hack Panel</b></p>
 
-  <div class="grid grid-cols-3 gap-2">
+  <div class="grid grid-cols-1 gap-2">
     <Button onclick={addPlayers} disabled={$game.players.length > 0}>Add players</Button>
     <Button onclick={resetGameInstance}>Reset game</Button>
   </div>

@@ -1,4 +1,4 @@
-export const roundText = [
+export const ROUND_TEXT = [
   { name: 'Setup', description: 'Waiting for players to join...' },
   {
     name: 'Round I: 1664',
@@ -21,5 +21,5 @@ export const roundText = [
   },
 ];
 
-export const longTeamNames = ['STATIONERS CO.', 'COALITION OF BOOKSELLERS'];
-export const shortTeamNames = ['STATIONERS', 'COALITION'];
+export const LONG_TEAM_NAMES = ['STATIONERS CO.', 'COALITION OF BOOKSELLERS'];
+export const SHORT_TEAM_NAMES = ['STATIONERS', 'COALITION'];

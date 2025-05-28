@@ -5,9 +5,9 @@
 
   import { cn } from '@/utils';
 
+  import { LONG_TEAM_NAMES, SHORT_TEAM_NAMES } from '@/game/game-text';
   import type { Player } from '@/game/types';
   import { getGameInstance } from '@/game/store';
-  import { longTeamNames } from '@/game/game-text';
 
   import { UserIcon } from '@lucide/svelte';
 
@@ -31,7 +31,7 @@
 
 <!-- Name input (temporary) -->
 {#if !$game.gameStarted}
-  <div class="mb-1 flex gap-2">
+  <div class="mb-1 flex w-full gap-2">
     <Input
       type="text"
       placeholder="Name"
@@ -61,12 +61,12 @@
       <div class="mb-1 flex items-center gap-2">
         <div
           class={cn(
-            'size-4 shrink-0 rounded-full',
+            'size-3 shrink-0 rounded-full',
             index === 2 ? 'bg-gray-400' : index === 0 ? 'bg-red-700' : 'bg-blue-700',
           )}
         ></div>
         <div class="flex w-full justify-between gap-4">
-          <p>{index < 2 ? longTeamNames[index] : 'Unassigned'}</p>
+          <p class="font-bold">{index < 2 ? SHORT_TEAM_NAMES[index] : 'Unassigned'}</p>
           <div class="text-muted-foreground flex items-center gap-2">
             {team.length}
             <UserIcon size={16} />

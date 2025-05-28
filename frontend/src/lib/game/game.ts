@@ -4,13 +4,14 @@
 import { shuffleArray } from '@/utils';
 
 import { FAVOR_COUNTS, PAWN_DISTS } from './constants';
-import type { Player, Pawn } from './types';
+import type { Bookshop as BookshopType, Player, Pawn } from './types';
 
 export class StationersGame {
   gameStarted: boolean;
   players: Player[];
   pawns: Pawn[];
   round: number;
+  shops: BookshopType[];
 
   subscribers: ((gameState: any) => void)[];
 
@@ -19,6 +20,7 @@ export class StationersGame {
     this.players = [];
     this.pawns = [];
     this.round = 0;
+    this.shops = [];
 
     this.subscribers = [];
   }
@@ -30,6 +32,7 @@ export class StationersGame {
       players: this.players,
       pawns: this.pawns,
       round: this.round,
+      shops: this.shops,
     };
   }
   subscribe(callback: (gameState: any) => void) {
@@ -50,6 +53,7 @@ export class StationersGame {
     this.players = [];
     this.pawns = [];
     this.round = 0;
+    this.shops = [];
 
     this.updateSubscribers();
   }
@@ -177,6 +181,7 @@ export class StationersGame {
 
     // Shuffle the pawns
     shuffleArray(this.pawns);
+    // DO NOT CHANGE PAWN ORDER AFTER THIS
 
     // Start first round
     this.round = 1;

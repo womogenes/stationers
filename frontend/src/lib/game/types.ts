@@ -11,3 +11,8 @@ export type Pawn = {
   player: string;
   team: number;
 };
+
+export type Bookshop = {
+  name: string;
+  favors: number;
+};
