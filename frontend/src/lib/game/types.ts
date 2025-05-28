@@ -4,3 +4,10 @@ export type Player = {
   favors: number;
   insurance: number;
 };
+
+export type Pawn = {
+  square: number;
+  favors: number;
+  player: string;
+  team: number;
+};

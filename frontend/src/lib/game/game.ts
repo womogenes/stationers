@@ -3,13 +3,13 @@
 
 import { shuffleArray } from '@/utils';
 
-import type { Player } from './types';
-import { Bookshop } from './bookshop';
+import { FAVOR_COUNTS, PAWN_DISTS } from './constants';
+import type { Player, Pawn } from './types';
 
 export class StationersGame {
   gameStarted: boolean;
   players: Player[];
-  pawns: any[];
+  pawns: Pawn[];
   round: number;
 
   subscribers: ((gameState: any) => void)[];
@@ -158,39 +158,28 @@ export class StationersGame {
     const playersByTeam = this.getPlayersByTeam();
     if (!this.isGameStartReady()) throw Error('Game not ready to start');
 
-    // Create all pawns
-    const pawnDists = {
-      2: [[1], [1]],
-      3: [[1, 1], [2]],
-      4: [
-        [1, 1],
-        [1, 1],
-      ],
-      5: [
-        [1, 1, 1],
-        [1, 2],
-      ],
-      6: [
-        [1, 1, 1],
-        [1, 1, 1],
-      ],
-    };
+    // Create all pawns and distribute favors
     // @ts-ignore
-    const pawnDist = pawnDists[this.players.length];
+    const pawnDist = PAWN_DISTS[this.players.length];
     this.pawns = [];
     [0, 1].forEach((team) => {
       pawnDist[team].forEach((nPawns: number, playerIdx: number) => {
-        this.pawns.push({
-          square: 0,
-          player: playersByTeam[team][playerIdx].name,
-          team: team,
-        });
+        for (let i = 0; i < nPawns; i++) {
+          this.pawns.push({
+            square: 0,
+            favors: FAVOR_COUNTS[team][this.players.length >= 6 ? 'extraPlayers' : 'normal'],
+            player: playersByTeam[team][playerIdx].name,
+            team: team,
+          });
+        }
       });
     });
 
+    // Shuffle the pawns
+    shuffleArray(this.pawns);
+
     // Start first round
     this.round = 1;
-
     this.gameStarted = true;
 
     return true;

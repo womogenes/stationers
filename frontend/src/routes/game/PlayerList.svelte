@@ -31,7 +31,7 @@
 
 <!-- Name input (temporary) -->
 {#if !$game.gameStarted}
-  <div class="flex gap-2">
+  <div class="mb-1 flex gap-2">
     <Input
       type="text"
       placeholder="Name"
@@ -61,7 +61,7 @@
       <div class="mb-1 flex items-center gap-2">
         <div
           class={cn(
-            'size-4 rounded-full',
+            'size-4 shrink-0 rounded-full',
             index === 2 ? 'bg-gray-400' : index === 0 ? 'bg-red-700' : 'bg-blue-700',
           )}
         ></div>
